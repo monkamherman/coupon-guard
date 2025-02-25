@@ -4,13 +4,12 @@
   "main": "index.js",
   "engines": {
     "node": "22.14.0",
-    "yarn": ">=1.22.19",
-    "npm": " Herman dev: Utiliser Yarn pour ce projet ."
+    "yarn": ">=1.22.19"
   },
   "scripts": {
     "dev": "ts-node-dev --respawn --clear --transpile-only --ignore-watch node_modules ./src/app.ts",
-    "build": "rimraf ./dist && tsc",
-    "start": "node src/app.js"
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "",

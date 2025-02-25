@@ -1,9 +1,7 @@
 // src/server.ts
 // Configurations de Middlewares
 import express from 'express';
-import compression from 'compression';
 import rateLimit from 'express-rate-limit';
-import { setupSwagger } from './swagger';
 import morgan from 'morgan';
 import { ONE_HUNDRED, SIXTY } from './core/constants';
 import { logger } from 'env-var';
@@ -22,7 +20,6 @@ const morganStream = {
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(compression());
 app.use(
 	rateLimit({
 		max: ONE_HUNDRED,
@@ -41,8 +38,9 @@ const corsOptions = {
     credentials: true, // Autoriser les cookies et autres informations d'authentification
 };
 app.use(cors(corsOptions));
-app.use("/", user)
-setupSwagger(app);
+app.use("/api/users", user)
+
+
 app.listen(envs.PORT, () => {
 	console.log(`Server running on port http://localhost:${envs.PORT}/`);
 	console.log(`Documentation  : http://localhost:${envs.PORT}/api-docs`);
