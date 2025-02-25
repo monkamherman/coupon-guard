@@ -74,8 +74,8 @@ function Home() {
   };
 
   return (
-    <div className="text-2xl items-center justify-center flex ">
-      <div className="h-full rounded-lg py-5 w-full md:w-[40%]  shadow-2xl px-4 bg-blue-100">
+    <div className="text-2xl items-center justify-center flex w-full  ">
+      <div className="h-full rounded-lg py-5 lg:w-[60%] md:w-[80%]  shadow-2xl px-4 bg-blue-100">
         <h1 className="md:text-4xl font-bold mb-4 text-center">
           Veuillez entrer les informations du coupon ici.
         </h1>

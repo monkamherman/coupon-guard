@@ -23,7 +23,7 @@ const mailOptions = {
   from: envs.address_mail,
   to: email,
   subject: '👋 Hello from coupon guard 🚀',
-  text: text
+  html: text
 };
 
 // Send the email
