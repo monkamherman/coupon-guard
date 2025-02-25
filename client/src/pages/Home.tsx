@@ -247,7 +247,7 @@ function Home() {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "Crypter mes données" : "Masquer mes données"}
+              {showPassword ? "Crypter mes données" : "Decrypter mes données"}
             </Button>
             <FormField
               control={form.control}

@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --clear --transpile-only --ignore-watch node_modules ./src/app.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "node dist/app.js"
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "",
