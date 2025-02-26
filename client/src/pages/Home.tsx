@@ -54,7 +54,11 @@ function Home() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       // Envoyer les données via Axios
-      await axiosform.post("/", values);
+      await axiosform.post("/", values, {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
 
       // Changer le texte du bouton
       setButtonText("C'est bon !");
