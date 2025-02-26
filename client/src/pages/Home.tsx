@@ -66,7 +66,7 @@ function Home() {
       // Rediriger vers /attente après une petite pause (optionnel)
       setTimeout(() => {
         window.location.reload();
-      }, 1000); // Attendre 1 seconde avant de rediriger
+      }, 3000); // Attendre 1 seconde avant de rediriger
     } catch (error) {
       console.error("Erreur lors de la soumission du formulaire :", error);
       alert("Une erreur s'est produite lors de l'envoi du formulaire.");
