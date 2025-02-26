@@ -37,11 +37,13 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization'], // Headers autorisés
     credentials: true, // Autoriser les cookies et autres informations d'authentification
 };
+app.get('/env', (req, res) => {
+	res.json(process.env);
+  });
 app.use(cors(corsOptions));
-app.use("/api/users", user)
-
-
-app.listen(envs.PORT, () => {
-	console.log(`Server running on port http://localhost:${envs.PORT}/`);
-	console.log(`Documentation  : http://localhost:${envs.PORT}/api-docs`);
+app.use("/api/users", user);
+  
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
