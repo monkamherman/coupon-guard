@@ -52,6 +52,8 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.get('/keep-alive', (req, res) => res.send('OK'))
+
 // Rate limiting (après les routes critiques)
 const limiter = rateLimit({
   windowMs: SIXTY * 1000,
