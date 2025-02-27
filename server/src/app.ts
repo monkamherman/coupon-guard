@@ -7,6 +7,11 @@ import { ONE_HUNDRED, SIXTY } from './core/constants';
 import { logger } from 'env-var';
 import user from './routes/route';
 
+
+import helmet from 'helmet';
+
+
+
 const morganStream = {
   write: (message: string) => {
     logger('http', message.trim());
@@ -41,7 +46,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(helmet({
+  contentSecurityPolicy: false, // Désactiver temporairement pour tests
+  hsts: {
+    maxAge: 63072000,
+    includeSubDomains: true,
+    preload: true
+  }
+}));
 // Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ 
