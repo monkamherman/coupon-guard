@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { ONE_HUNDRED, SIXTY } from './core/constants';
 import { logger } from 'env-var';
-import { envs } from './core/config/env';
 import user from './routes/route';
 
 const morganStream = {
@@ -17,9 +16,11 @@ const morganStream = {
 const app = express();
 
 // Configuration CORS dynamique
-const allowedOrigins = envs.CORS_ORIGIN 
-  ? envs.CORS_ORIGIN.split(',') 
-  : ['http://localhost:5173']; // Origines par défaut
+const allowedOrigins = [
+  'http://localhost:5173', // Développement local
+  'https://coupon-guard.vercel.app', // Production frontend
+  'https://coupon-guard.onrender.com' // Backup
+];
 
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {

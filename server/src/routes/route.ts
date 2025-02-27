@@ -7,4 +7,4 @@ const user = Router()
 user.post('/sendMails', userController.sendMails)
 
 
-export default user
+export default user 
