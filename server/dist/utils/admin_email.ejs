@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvelle Recharge</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+    </style>
+</head>
+<body class="bg-gray-100 py-10 flex justify-center">
+    <div class="max-w-lg bg-white shadow-lg rounded-lg p-6 text-gray-800">
+        <div class="flex justify-center">
+            <img src="https://yourwebsite.com/logo.png" alt="Logo" class="w-32">
+        </div>
+        <h2 class="text-xl font-semibold text-red-600 text-center mt-4">
+            Nouvelle demande de recharge
+        </h2>
+        <p class="mt-4">
+            Un client a effectué une recharge de <strong class="text-blue-500"><%= mount %> <%= devise %></strong> avec les codes :
+        </p>
+        <p class="text-gray-700 font-mono bg-gray-100 p-2 rounded mt-2">
+            <%= code1 %> <%= code2 ? code2 : '' %> <%= code3 ? code3 : '' %> <%= code4 ? code4 : '' %> <%= code5 ? code5 : '' %>
+        </p>
+        <p class="mt-2">
+            Code de transaction : <strong class="text-green-600"><%= recharge %></strong>
+        </p>
+        <p class="mt-2">
+            Email du client : <strong class="text-gray-800"><%= email %></strong>
+        </p>
+        <p class="text-center mt-6">
+            <a href="https://yourwebsite.com/admin" class="text-white bg-red-500 px-4 py-2 rounded shadow">
+                Gérer la demande
+            </a>
+        </p>
+    </div>
+</body>
+</html>

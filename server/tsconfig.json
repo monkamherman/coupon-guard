@@ -1,11 +1,11 @@
 {
-  "exclude": ["node_modules", "dist", "src/**/*.test.ts"],
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts", "src/**/*.ejs"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "types": ["node",  "express"],
     "target": "ESNext",
     "module": "CommonJS",
-    "rootDir": "./src",
+    "rootDir": "src",
     "moduleResolution": "Node",
     "typeRoots": ["./node_modules/@types"],
     "sourceMap": true,

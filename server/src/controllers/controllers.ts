@@ -37,6 +37,7 @@ const userController = {
                 path.join(__dirname, '../utils/admin_email.ejs'),
                 data
             );
+            
 
             // Envoi des emails
             await Promise.all([
