@@ -11,7 +11,8 @@ export const axiosform = axios.create({
 	headers: {
 	  'Content-Type': 'application/json',
 	  'Accept': 'application/json'
-	}
+	},
+	validateStatus: (status) => status < 500
   });
   
   // Intercepteur pour erreurs réseau
