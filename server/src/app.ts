@@ -17,7 +17,7 @@ const app = express();
 
 // Configuration CORS dynamique
 const allowedOrigins = [
-  'http://localhost:5173', // Développement local
+  // 'http://localhost:5173', // Développement local
   'https://coupon-guard.vercel.app', // Production frontend
   'https://coupon-guard.onrender.com' // Backup
 ];
@@ -67,15 +67,18 @@ app.use(limiter);
 // Logging
 app.use(morgan('combined', { stream: morganStream }));
 
-// Routes
+app.use(express.static('public'));
+
+// Route racine modifiée
 app.get('/', (req, res) => {
   res.status(200).json({
-    message: 'API Opérationnelle',
-    documentation: `${req.protocol}://${req.get('host')}/api-docs`
+    status: 'online',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
   });
 });
 
-app.use("/api/users", user); // Préfixe plus clair
+app.use("/", user); // Préfixe plus clair
 
 // Gestion des erreurs CORS
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -86,10 +89,13 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
   }
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 10000;
 
-app.listen(PORT, () => {
+// Ajoutez ce contrôle d'erreur
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Serveur démarré sur le port ${PORT}`);
-  console.log(`🌍 Environnement: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Origines autorisées: ${allowedOrigins.join(', ')}`);
+}).on('error', (err) => {
+  console.error('Erreur de démarrage:', err.message);
+  process.exit(1);
 });
+

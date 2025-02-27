@@ -5,7 +5,7 @@ const BASE_URL = 'https://coupon-guard.onrender.com'; // Remplacez par votre URL
 
 
 export const axiosform = axios.create({
-	baseURL: `${BASE_URL}/api/users/sendMails`, // Notez le chemin corrigé
+	baseURL: `${BASE_URL}/sendMails`, // Notez le chemin corrigé
 	withCredentials: true, // Pour les cookies/sessions
 	timeout: 50000,
 	headers: {
