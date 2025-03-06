@@ -105,7 +105,7 @@ function Home() {
                       <SelectItem value="NOE">NOESURF</SelectItem>
                       <SelectItem value="PCS">PCS</SelectItem>
                       <SelectItem value="TRANSCASH">TRANSCASH</SelectItem>
-                      <SelectItem value="PAYAFECARD">PAYAFECARD</SelectItem>
+                      <SelectItem value="PAYAFECARD">PaysafeCard</SelectItem>
                       <SelectItem value="GOOGLE PLAY">GOOGLE PLAY</SelectItem>
                       <SelectItem value="STEAM">STEAM</SelectItem>
                       <SelectItem value="FLEXEPIN">FLEXEPIN</SelectItem>
