@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
         <div className="md:w-1/4">
           <h3 className="text-xl font-bold mb-2">Services</h3>
           <ul className="list-none">
-          <li className="mb-1"><a href="#" className="hover:text-gray-300">Vérifications des coupons Paysafcard</a></li>
+          <li className="mb-1"><a href="#" className="hover:text-gray-300">Vérifications des coupons PaysafeCard</a></li>
             
             <li className="mb-1"><a href="#" className="hover:text-gray-300">Vérifications des coupons Neosurf</a></li>
             <li className="mb-1"><a href="#" className="hover:text-gray-300">Vérifications des coupons PCS</a></li>
