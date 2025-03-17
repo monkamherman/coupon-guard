@@ -21,11 +21,7 @@ const morganStream = {
 const app = express();
 
 // Configuration CORS dynamique
-const allowedOrigins = [
-  // 'http://localhost:5173', // Développement local
-  'https://coupon-guard.vercel.app', // Production frontend
-  'https://coupon-guard.onrender.com' // Backup
-];
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',');
 
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
@@ -33,8 +29,10 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn(`CORS blocked request from origin: ${origin}`);
       callback(new Error('Blocked by CORS policy'));
     }
+    
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With','accept'],
@@ -47,12 +45,26 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet({
-  contentSecurityPolicy: false, // Désactiver temporairement pour tests
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://trusted.cdn.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://trusted.cdn.com"],
+      imgSrc: ["'self'", "data:", "https://trusted.cdn.com"],
+      fontSrc: ["'self'", "https://trusted.cdn.com"],
+      connectSrc: ["'self'", "https://api.trusted.com"],
+    },
+  },
   hsts: {
     maxAge: 63072000,
     includeSubDomains: true,
-    preload: true
-  }
+    preload: true,
+  },
+  frameguard: { action: 'deny' }, // Empêche le clickjacking
+  hidePoweredBy: true,           // Masque l'en-tête X-Powered-By
+  noSniff: true,                 // Empêche le sniffing MIME
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' }, // Politique de référent
+  xssFilter: true, 
 }));
 // Health check
 app.get('/health', (req, res) => {

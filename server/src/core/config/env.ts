@@ -20,6 +20,7 @@ export const envs = {
 	mot_de_passe: "ecry udqv bknf nese",
 	address_mail: "plateformetestonline@gmail.com",
 	CORS_ORIGIN: get('CORS_ORIGIN').default('*').asString(),
+	ALLOWED_ORIGINS: "http://localhost:5173,https://coupon-guard.vercel.app,https://coupon-guard.onrender.com"
 };
 
 export const CONNECTION_STRING = `mongodb://${envs.MONGO_INITDB_ROOT_USERNAME}:${envs.MONGO_INITDB_ROOT_PASSWORD}@${envs.MONGO_HOST}:${envs.MONGO_PORT}/${envs.MONGO_DB_NAME}?authSource=admin`;
