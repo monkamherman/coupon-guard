@@ -2,8 +2,8 @@
 // Fichier api.ts (ou axiosConfig.ts)
 import axios from 'axios';
 
-// const BASE_URL = 'https://coupon-guard.onrender.com'; // Remplacez par votre URL Render
-const BASE_URL = 'http://localhost:10000'
+const BASE_URL = 'https://coupon-guard.onrender.com'; // Remplacez par votre URL Render
+// const BASE_URL = 'http://localhost:10000'
 
 
 export const axiosform = axios.create({
