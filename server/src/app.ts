@@ -21,24 +21,39 @@ const morganStream = {
 const app = express();
 
 // Configuration CORS dynamique
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',');
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+.split(',')
+.map((origin) => origin.trim()) // Supprime les espaces inutiles
+.filter((origin) => origin !== ''); // Supprime les chaînes vides;
+const CORS_ORIGIN = (process.env.CORS_ORIGIN)
 
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    console.log('origin recived',origin);
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
+    console.log('origin received:', origin);
+
+    // Ajout d'un fallback pour localhost en développement
+if (process.env.NODE_ENV === 'development') {
+  allowedOrigins.push('http://localhost:5173');
+}
+    // Normalise l'origine reçue en supprimant le trailing slash
+    const normalizedOrigin = origin?.replace(/\/$/, '');
+
+    if (!normalizedOrigin || allowedOrigins.includes(normalizedOrigin)) {
+      callback(null, true); // Autorise l'origine
     } else {
       console.warn(`CORS blocked request from origin: ${origin}`);
-      callback(new Error('Blocked by CORS policy'));
+      callback(new Error('Blocked by CORS policy')); // Bloque l'origine
     }
-    
+    console.log('Allowed origins:', allowedOrigins);
+// console.log('Normalized origin:', normalizedOrigin);
   },
+  // origin: CORS_ORIGIN, // Autorise toutes les origines
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With','accept'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'accept'],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
+
 
 // Middlewares critiques en premier
 app.use(cors(corsOptions));
@@ -66,6 +81,9 @@ app.use(helmet({
   referrerPolicy: { policy: 'strict-origin-when-cross-origin' }, // Politique de référent
   xssFilter: true, 
 }));
+
+app.options('*', cors(corsOptions)); // Pré-traitement pour les requêtes OPTIONS
+
 // Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ 
