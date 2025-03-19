@@ -31,10 +31,6 @@ const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     console.log('origin received:', origin);
 
-    // Ajout d'un fallback pour localhost en développement
-if (process.env.NODE_ENV === 'development') {
-  allowedOrigins.push('http://localhost:5173');
-}
     // Normalise l'origine reçue en supprimant le trailing slash
     const normalizedOrigin = origin?.replace(/\/$/, '');
 
@@ -92,6 +88,11 @@ app.get('/health', (req, res) => {
     environment: process.env.NODE_ENV,
     version: '1.0.0'
   });
+});
+
+app.use((req, res, next) => {
+  console.log(`Requête reçue depuis : ${req.headers.origin}`);
+  next();
 });
 
 app.get('/keep-alive', (req, res) => res.send('OK'))

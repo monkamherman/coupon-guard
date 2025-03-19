@@ -17,8 +17,8 @@ export const envs = {
 	MONGO_HOST: get('MONGO_HOST').default('localhost').asString(),
 	MONGO_PORT: get('MONGO_PORT').default('27017').asString(),
 
-	mot_de_passe: "ecry udqv bknf nese",
-	address_mail: "plateformetestonline@gmail.com",
+	mot_de_passe: get('MOT_DE_PASSE_SENDMAIL').required().asString(),
+	address_mail: get('ADRESSE_MAIL_SENDMAIL').required().asString(),
 	CORS_ORIGIN: get('CORS_ORIGIN').default('*').asString(),
 	ALLOWED_ORIGINS: get('ALLOWED_ORIGINS').default('http://localhost:5173').asString(),
 };
