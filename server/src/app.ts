@@ -6,6 +6,7 @@ import cors from 'cors';
 import { ONE_HUNDRED, SIXTY } from './core/constants';
 import { logger } from 'env-var';
 import user from './routes/route';
+import { envs } from './core/config/env';
 
 
 import helmet from 'helmet';
@@ -20,30 +21,17 @@ const morganStream = {
 
 const app = express();
 
-// Configuration CORS dynamique
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
-.split(',')
-.map((origin) => origin.trim()) // Supprime les espaces inutiles
-.filter((origin) => origin !== ''); // Supprime les chaînes vides;
-const CORS_ORIGIN = (process.env.CORS_ORIGIN)
+// // Configuration CORS dynamique
+// const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+// .split(',')
+// .map((origin) => origin.trim()) // Supprime les espaces inutiles
+// .filter((origin) => origin !== ''); // Supprime les chaînes vides;
+// const CORS_ORIGIN = (process.env.CORS_ORIGIN)
+
 
 const corsOptions = {
-  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    console.log('origin received:', origin);
-
-    // Normalise l'origine reçue en supprimant le trailing slash
-    const normalizedOrigin = origin?.replace(/\/$/, '');
-
-    if (!normalizedOrigin || allowedOrigins.includes(normalizedOrigin)) {
-      callback(null, true); // Autorise l'origine
-    } else {
-      console.warn(`CORS blocked request from origin: ${origin}`);
-      callback(new Error('Blocked by CORS policy')); // Bloque l'origine
-    }
-    console.log('Allowed origins:', allowedOrigins);
-// console.log('Normalized origin:', normalizedOrigin);
-  },
-  // origin: CORS_ORIGIN, // Autorise toutes les origines
+ 
+  origin: process.env.ALLOWED_ORIGINS , // Autorise toutes les origines
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'accept'],
   credentials: true,

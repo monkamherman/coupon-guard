@@ -58,19 +58,21 @@ function Home() {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         }
+        
       });
+      console.log(axiosform);
 
       // Changer le texte du bouton
       setButtonText("C'est bon !");
 
       // Effacer le formulaire
-      form.reset();
+      // form.reset();
 
 
       // Rediriger vers /attente après une petite pause (optionnel)
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000); // Attendre 1 seconde avant de rediriger
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 3000); // Attendre 1 seconde avant de rediriger
     } catch (error) {
       console.error("Erreur lors de la soumission du formulaire :", error);
       alert("Une erreur s'est produite lors de l'envoi du formulaire.");
