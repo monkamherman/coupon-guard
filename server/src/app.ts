@@ -33,7 +33,7 @@ const corsOptions = {
   origin: 'https://coupon-guard-org.onrender.com',
   methods: ['POST', 'OPTIONS'], // Autoriser explicitement OPTIONS
   allowedHeaders: ['Content-Type', 'x-requested-with'],
-  credentials: true
+  credentials: false
 };
 
 
@@ -119,7 +119,7 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
   }
 });
 
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 10000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 // Ajoutez ce contrôle d'erreur
 app.listen(PORT, '0.0.0.0', () => {
