@@ -31,11 +31,7 @@ const app = express();
 
 const corsOptions = {
  
-  origin: process.env.ALLOWED_ORIGINS , // Autorise toutes les origines
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'accept'],
-  credentials: true,
-  optionsSuccessStatus: 200,
+  origin: '*'
 };
 
 
