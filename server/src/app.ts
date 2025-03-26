@@ -30,9 +30,12 @@ const app = express();
 
 
 const corsOptions = {
- 
-  origin: '*'
+  origin: 'https://coupon-guard-org.onrender.com',
+  methods: ['POST', 'OPTIONS'], // Autoriser explicitement OPTIONS
+  allowedHeaders: ['Content-Type', 'x-requested-with'],
+  credentials: true
 };
+
 
 
 // Middlewares critiques en premier
