@@ -33,8 +33,9 @@ const corsOptions = {
   origin: 'https://coupon-guard-org.onrender.com',
   methods: ['POST', 'OPTIONS'], // Autoriser explicitement OPTIONS
   allowedHeaders: ['Content-Type', 'x-requested-with'],
-  credentials: false
+  credentials: true
 };
+
 
 
 
