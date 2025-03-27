@@ -21,24 +21,14 @@ const morganStream = {
 
 const app = express();
 
-// // Configuration CORS dynamique
-// const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
-// .split(',')
-// .map((origin) => origin.trim()) // Supprime les espaces inutiles
-// .filter((origin) => origin !== ''); // Supprime les chaînes vides;
-// const CORS_ORIGIN = (process.env.CORS_ORIGIN)
 
-
-// const corsOptions = {
-//   origin: 'https://coupon-guard-org.onrender.com',
-//   methods: ['POST', 'OPTIONS'], // Autoriser explicitement OPTIONS
-//   allowedHeaders: ['Content-Type', 'x-requested-with'],
-//   credentials: true
-// };
+app.use(cors({
+  origin: '*'
+}));
 
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'https://coupon-guard-org.onrender.com');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
@@ -46,34 +36,12 @@ app.use((req, res, next) => {
 
 app.options('*', (req, res) => res.sendStatus(200));
 
-// Middlewares critiques en premier
-// app.use(cors(corsOptions));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(helmet({
-//   contentSecurityPolicy: {
-//     directives: {
-//       defaultSrc: ["'self'"],
-//       scriptSrc: ["'self'", "'unsafe-inline'", "https://trusted.cdn.com"],
-//       styleSrc: ["'self'", "'unsafe-inline'", "https://trusted.cdn.com"],
-//       imgSrc: ["'self'", "data:", "https://trusted.cdn.com"],
-//       fontSrc: ["'self'", "https://trusted.cdn.com"],
-//       connectSrc: ["'self'", "https://api.trusted.com"],
-//     },
-//   },
-//   hsts: {
-//     maxAge: 63072000,
-//     includeSubDomains: true,
-//     preload: true,
-//   },
-//   frameguard: { action: 'deny' }, // Empêche le clickjacking
-//   hidePoweredBy: true,           // Masque l'en-tête X-Powered-By
-//   noSniff: true,                 // Empêche le sniffing MIME
-//   referrerPolicy: { policy: 'strict-origin-when-cross-origin' }, // Politique de référent
-//   xssFilter: true, 
-// }));
 
-// app.options('*', cors(corsOptions)); // Pré-traitement pour les requêtes OPTIONS
+
 
 // Health check
 app.get('/health', (req, res) => {
