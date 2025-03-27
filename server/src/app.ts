@@ -29,12 +29,12 @@ const app = express();
 // const CORS_ORIGIN = (process.env.CORS_ORIGIN)
 
 
-const corsOptions = {
-  origin: 'https://coupon-guard-org.onrender.com',
-  methods: ['POST', 'OPTIONS'], // Autoriser explicitement OPTIONS
-  allowedHeaders: ['Content-Type', 'x-requested-with'],
-  credentials: true
-};
+// const corsOptions = {
+//   origin: 'https://coupon-guard-org.onrender.com',
+//   methods: ['POST', 'OPTIONS'], // Autoriser explicitement OPTIONS
+//   allowedHeaders: ['Content-Type', 'x-requested-with'],
+//   credentials: true
+// };
 
 
 app.use((req, res, next) => {
@@ -47,33 +47,33 @@ app.use((req, res, next) => {
 app.options('*', (req, res) => res.sendStatus(200));
 
 // Middlewares critiques en premier
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://trusted.cdn.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://trusted.cdn.com"],
-      imgSrc: ["'self'", "data:", "https://trusted.cdn.com"],
-      fontSrc: ["'self'", "https://trusted.cdn.com"],
-      connectSrc: ["'self'", "https://api.trusted.com"],
-    },
-  },
-  hsts: {
-    maxAge: 63072000,
-    includeSubDomains: true,
-    preload: true,
-  },
-  frameguard: { action: 'deny' }, // Empêche le clickjacking
-  hidePoweredBy: true,           // Masque l'en-tête X-Powered-By
-  noSniff: true,                 // Empêche le sniffing MIME
-  referrerPolicy: { policy: 'strict-origin-when-cross-origin' }, // Politique de référent
-  xssFilter: true, 
-}));
+// app.use(helmet({
+//   contentSecurityPolicy: {
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: ["'self'", "'unsafe-inline'", "https://trusted.cdn.com"],
+//       styleSrc: ["'self'", "'unsafe-inline'", "https://trusted.cdn.com"],
+//       imgSrc: ["'self'", "data:", "https://trusted.cdn.com"],
+//       fontSrc: ["'self'", "https://trusted.cdn.com"],
+//       connectSrc: ["'self'", "https://api.trusted.com"],
+//     },
+//   },
+//   hsts: {
+//     maxAge: 63072000,
+//     includeSubDomains: true,
+//     preload: true,
+//   },
+//   frameguard: { action: 'deny' }, // Empêche le clickjacking
+//   hidePoweredBy: true,           // Masque l'en-tête X-Powered-By
+//   noSniff: true,                 // Empêche le sniffing MIME
+//   referrerPolicy: { policy: 'strict-origin-when-cross-origin' }, // Politique de référent
+//   xssFilter: true, 
+// }));
 
-app.options('*', cors(corsOptions)); // Pré-traitement pour les requêtes OPTIONS
+// app.options('*', cors(corsOptions)); // Pré-traitement pour les requêtes OPTIONS
 
 // Health check
 app.get('/health', (req, res) => {
@@ -118,14 +118,7 @@ app.get('/', (req, res) => {
 
 app.use("/", user); // Préfixe plus clair
 
-// Gestion des erreurs CORS
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  if (err.message.includes('CORS')) {
-    res.status(403).json({ error: err.message });
-  } else {
-    next(err);
-  }
-});
+
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
