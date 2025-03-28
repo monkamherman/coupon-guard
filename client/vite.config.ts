@@ -12,4 +12,13 @@ export default defineConfig({
   build: {
     outDir: 'dist', // Assure-toi que c'est défini sur 'dist'
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://coupon-guard.onrender.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  },
 })
