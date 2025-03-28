@@ -17,7 +17,7 @@ export default defineConfig({
       '/api': {
         target: 'https://coupon-guard.onrender.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/, '')
+        rewrite: (path) => path.replace(/^\//, '')
       }
     }
   },
