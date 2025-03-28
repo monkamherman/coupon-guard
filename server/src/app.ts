@@ -5,37 +5,14 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import user from './routes/route';
 import rateLimit from 'express-rate-limit';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 
 // 1. Middleware de sécurité de base
 app.use(helmet());
 
-// // 2. Configuration CORS complète
-// app.use(cors({
-//   origin: '*', // Autorise toutes les origines
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-//   allowedHeaders: [
-//     'Content-Type', 
-//     'Authorization',
-//     'X-Requested-With',
-//     'Accept',
-//     'Origin',
-//     'Access-Control-Request-Method',
-//     'Access-Control-Request-Headers'
-//   ],
-//   exposedHeaders: [
-//     'Content-Length',
-//     'X-Powered-By',
-//     'Content-Type',
-//     'Date',
-//     'ETag'
-//   ],
-//   credentials: false, // À mettre à true si vous utilisez des cookies/sessions
-//   maxAge: 86400, // Cache les options CORS pendant 24h
-//   preflightContinue: false,
-//   optionsSuccessStatus: 204
-// }));
+
 
 // 3. Middleware pour les requêtes JSON
 app.use(express.json());
@@ -44,8 +21,13 @@ app.use(express.urlencoded({ extended: true }));
 // 4. Logging des requêtes
 app.use(morgan('dev'));
 
-// 5. Gestion explicite des OPTIONS
-app.options('*', cors());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', '*')
+  res.header('Access-Control-Allow-Headers', '*')
+  next()
+})
 
 // 6. Route de santé
 app.get('/health', (req, res) => {
@@ -63,22 +45,11 @@ const limiter = rateLimit({
  
 });
 
-// 2. Configuration CORS précise
-app.use(cors({
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      'https://coupon-guard-org.onrender.com',
-      'http://localhost:5173'
-    ];
-    
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.warn(`Origin bloquée: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+app.use('/api', createProxyMiddleware({
+  target: 'https://coupon-guard.onrender.com',
+  changeOrigin: true,
+  pathRewrite: { '^/api': '' }, // Supprime le préfixe /api
+  logLevel: 'debug'
 }));
 
 

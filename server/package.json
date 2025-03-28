@@ -1,14 +1,13 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  
   "main": "index.js",
   "engines": {
     "node": "22"
   },
   "scripts": {
     "dev": "ts-node-dev --respawn --clear --transpile-only --ignore-watch node_modules ./src/app.ts",
-   "build": "tsc && mkdir -p dist/utils && cp -r src/utils/*.ejs dist/utils/",
+    "build": "tsc && mkdir -p dist/utils && cp -r src/utils/*.ejs dist/utils/",
     "start": "node dist/app.js",
     "health-check": "curl -sS http://localhost:$PORT/health || exit 1"
   },
@@ -50,6 +49,7 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.3.1",
     "helmet": "^8.0.0",
+    "http-proxy-middleware": "^3.0.3",
     "morgan": "^1.10.0",
     "nodemailer": "^6.10.0",
     "openapi-types": "^12.1.3",
