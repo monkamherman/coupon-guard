@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 // const BASE_URL = import.meta.env.VITE_API_URL; 
-// const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';// Remplacez par votre URL Render
+// const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';// Remplacez par votre URL Render
 const BASE_URL = 'https://coupon-guard.onrender.com'
 
 
