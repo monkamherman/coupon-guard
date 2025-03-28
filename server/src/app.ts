@@ -1,11 +1,12 @@
 // src/server.ts
 import express from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import user from './routes/route';
 import rateLimit from 'express-rate-limit';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { Request, Response, NextFunction } from 'express';
 
 const app = express();
 
@@ -22,13 +23,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', '*')
-  res.header('Access-Control-Allow-Headers', '*')
-  next()
-})
+interface CorsRequest extends Request {}
+interface CorsResponse extends Response {}
+interface CorsNextFunction extends NextFunction {}
 
+export default function cors(req: CorsRequest, res: CorsResponse, next: CorsNextFunction): void {
+  res.setHeader('Access-Control-Allow-Origin', 'https://coupon-guard-svou.vercel.app/'); // Remplacez par votre URL
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    res.status(200).end(); // Réponse préflight
+  }
+  next();
+}
 // 6. Route de santé
 app.get('/health', (req, res) => {
   res.status(200).json({ 
@@ -45,17 +54,16 @@ const limiter = rateLimit({
  
 });
 
-app.use('/api', createProxyMiddleware({
-  target: 'https://coupon-guard.onrender.com',
-  changeOrigin: true,
-  pathRewrite: { '^/api': '' }, // Supprime le préfixe /api
-  logLevel: 'debug'
-}));
 
 
 app.use(limiter);
 
-app.set('trust proxy', 1);
+app.use('/external-api', createProxyMiddleware({
+  target: 'https://coupon-guard-svou.vercel.app/',
+  // logLevel: 'debug', // ✅ Supprimé car non valide
+  changeOrigin: true,
+  pathRewrite: { '^/external-api': '' }
+}));
 
 // 7. Middleware de logs des origines
 app.use((req, res, next) => {
