@@ -65,7 +65,16 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   console.error(err.stack);
   res.status(500).json({ error: 'Erreur interne du serveur' });
 });
+
+
 app.use('/', user)
+
+app.use((req, res, next) => {
+  req.setTimeout(120000); // 2 minutes timeout
+  res.setTimeout(120000);
+  next();
+});
+
 
 // 9. Démarrage du serveur
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
