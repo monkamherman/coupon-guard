@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: backend
+    name: mon-api-node
     runtime: node
-    buildCommand: yarn install && yarn build
+    buildCommand: yarn install
     startCommand: yarn start
-    envVars:
+    env:
+      - key: PORT
+        value: 3000
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3030

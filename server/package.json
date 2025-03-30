@@ -1,15 +1,13 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
   "engines": {
     "node": "22"
   },
+  "main": "src/app.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --clear --transpile-only --ignore-watch node_modules ./src/app.ts",
-    "build": "tsc && mkdir -p dist/utils && cp -r src/utils/*.ejs dist/utils/",
-    "start": "node dist/app.js",
-    "health-check": "curl -sS http://localhost:$PORT/health || exit 1"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",
