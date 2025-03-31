@@ -78,7 +78,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 
-app.use('/', user)
+app.use('/api', user)
 
 app.use((req, res, next) => {
   req.setTimeout(120000); // 2 minutes timeout

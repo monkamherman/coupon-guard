@@ -4,11 +4,11 @@ import axios from 'axios';
 
 // const BASE_URL = import.meta.env.VITE_API_URL; 
 // const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';// Remplacez par votre URL Render
-const BASE_URL = 'https://coupon-guard.vercel.app/'
+const BASE_URL = 'https://coupon-guard.vercel.app'
 
 
 export const axiosform = axios.create({
-	baseURL: `${BASE_URL}/api/sendMails`, // Notez le chemin corrigé
+	baseURL: `${BASE_URL}/sendMails`, // Notez le chemin corrigé
 	withCredentials: false, // Pour les cookies/sessions
 	timeout: 120000,
 	headers: {
