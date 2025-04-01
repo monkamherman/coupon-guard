@@ -1,4 +1,4 @@
-// src/server.ts
+// src/app.ts
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -68,6 +68,16 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Erreur interne du serveur' });
 });
+
+// Ajoutez en haut du fichier
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+// Remplacez la partie export/démarrage par :
+// Export as a named function instead of default
+export const handleRequest = async (req: VercelRequest, res: VercelResponse) => {
+  // Gestion des requêtes via l'app Express
+  return app(req, res);
+};
 
 // 8. Démarrage
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;

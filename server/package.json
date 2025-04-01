@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "engines": {
-  "node": "22"
+    "node": "22"
   },
   "main": "src/app.ts",
   "scripts": {
@@ -38,6 +38,7 @@
     "@types/ejs": "^3.1.5",
     "@types/morgan": "^1.9.9",
     "@types/nodemailer": "^6.4.17",
+    "@vercel/node": "^5.1.14",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

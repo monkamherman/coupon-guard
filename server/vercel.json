@@ -10,10 +10,10 @@
     
   "routes": [
     { "src": "/(.*)",
-     "dest": "src/app.js" },
+     "dest": "src/app.ts" },
      {
       "src": "/health",
-      "dest": "src/app.js"
+      "dest": "src/app.ts"
     }
   ]
 }
