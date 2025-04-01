@@ -1,3 +1,4 @@
+import { Handler } from './../node_modules/foreground-child/node_modules/signal-exit/dist/mjs/index.d';
 // src/app.ts
 import express from 'express';
 import helmet from 'helmet';
@@ -6,6 +7,7 @@ import user from './routes/route';
 import rateLimit from 'express-rate-limit';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { Request, Response, NextFunction } from 'express';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const app = express();
 
@@ -70,13 +72,16 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 // Ajoutez en haut du fichier
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 // Remplacez la partie export/démarrage par :
-// Export as a named function instead of default
-export const handleRequest = async (req: VercelRequest, res: VercelResponse) => {
-  // Gestion des requêtes via l'app Express
-  return app(req, res);
+export const requestHandler = async (req: VercelRequest, res: VercelResponse) => {
+  console.log('Requête reçue:', req.method, req.url); // Log important
+  try {
+    await app(req, res);
+  } catch (error) {
+    console.error('Erreur:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 // 8. Démarrage
