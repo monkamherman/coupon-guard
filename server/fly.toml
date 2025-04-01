@@ -1,0 +1,10 @@
+app = "coupon-guard-backend"
+primary_region = "par"  # Paris pour meilleure latence
+
+[build]
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_start_machines = true

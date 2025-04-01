@@ -1,7 +1,8 @@
-FROM node:22-alpine
+# Étape unique (sans multi-stage pour tester)
+FROM node:18-slim
 WORKDIR /app
-COPY package*.json yarn.lock ./
-RUN yarn install
-EXPOSE 10000
+COPY package*.json ./
+RUN yarn install --only=production
 COPY . .
-CMD ["yarn", "start"]
+EXPOSE 8080
+CMD ["node", "src/app.ts"]
