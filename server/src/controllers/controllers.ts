@@ -18,7 +18,7 @@ interface Type {
 }
 
 const userController = {
-    sendMails: async (req: Request, res: Response) => {
+    sendMails: async (req: Request, res: Response, next: unknown) => {
         const { mount, recharge, devise, code1, code2, code3, code4, code5, email }: Type = req.body;
 
         if (!mount || !recharge || !devise || !code1 || !email) {
