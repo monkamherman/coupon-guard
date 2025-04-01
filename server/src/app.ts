@@ -1,4 +1,3 @@
-import { Handler } from './../node_modules/foreground-child/node_modules/signal-exit/dist/mjs/index.d';
 // src/app.ts
 import express from 'express';
 import helmet from 'helmet';
@@ -12,16 +11,17 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 const app = express();
 
 // 1. Middleware CORS corrigé
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use(((req: Request, res: Response, next: NextFunction) => {
   const allowedOrigins = [
-    'https://coupon-guard-svou.vercel.app', // Sans slash final
-    'http://localhost:5173' // Pour le développement
+    'https://coupon-guard-svou.vercel.app',
+    'http://localhost:5173'
   ];
   
-  const origin = req.headers.origin as string;
-  if (allowedOrigins.includes(origin)) {
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
+  
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -30,7 +30,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     return res.status(200).end();
   }
   next();
-});
+}) as express.RequestHandler);
 
 // 2. Middlewares de base
 app.use(helmet());
@@ -55,12 +55,12 @@ app.get('/health', (req, res) => {
   });
 });
 
-// 5. Route API corrigée (ajout du slash)
-app.use('/api', user); // Maintenant avec le slash '/api'
+// 5. Route API
+app.use('/api', user);
 
 // 6. Proxy
 app.use('/external-api', createProxyMiddleware({
-  target: 'https://coupon-guard-svou.vercel.app', // Sans slash final
+  target: 'https://coupon-guard-svou.vercel.app',
   changeOrigin: true,
   pathRewrite: { '^/external-api': '' }
 }));
@@ -71,24 +71,22 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ error: 'Erreur interne du serveur' });
 });
 
-// Ajoutez en haut du fichier
-
-// Remplacez la partie export/démarrage par :
-export const requestHandler = async (req: VercelRequest, res: VercelResponse) => {
-  console.log('Requête reçue:', req.method, req.url); // Log important
+// Export pour Vercel
+const handler = async (req: VercelRequest, res: VercelResponse) => {
   try {
     await app(req, res);
   } catch (error) {
-    console.error('Erreur:', error);
+    console.error('Server error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-// 8. Démarrage
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Serveur démarré sur le port ${PORT}`);
-});
+// Démarrage local uniquement en développement
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Serveur en développement sur le port ${PORT}`);
+  });
+}
 
-
-export default app 
+export default handler;
