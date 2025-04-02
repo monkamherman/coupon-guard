@@ -5,6 +5,6 @@ primary_region = "par"  # Paris pour meilleure latence
   dockerfile = "Dockerfile"
 
 [http_service]
-  internal_port = 8080
+  internal_port = 3000
   force_https = true
   auto_start_machines = true
